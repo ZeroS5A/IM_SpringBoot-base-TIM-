@@ -3,7 +3,7 @@ package com.controller;
 import com.commom.Result;
 import com.commom.ResultStatus;
 import com.server.TestServer;
-import com.server.StudentSever;
+import com.server.UserSever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +13,7 @@ public class HelloController {
     @Autowired
     TestServer testServer;
     @Autowired
-    StudentSever studentSever;
+    UserSever studentSever;
 
     @RequestMapping("/hello")
     public String hello(){

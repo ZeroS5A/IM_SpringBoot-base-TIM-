@@ -28,4 +28,18 @@ public class test {
         System.out.println(connection);
         connection.close();
     }
+
+    @Test
+    public void test1(){
+        System.out.println(
+                "Select\n" +
+                        "t_user.userTimId\n" +
+                        "From \n" +
+                        "t_user\n" +
+                        "Where \n" +
+                        "userName=#{0}\n" +
+                        "AND \n" +
+                        "password=#{1}"
+        );
+    }
 }

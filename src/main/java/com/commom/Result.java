@@ -1,5 +1,8 @@
 package com.commom;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Result<T> {
     //返回错误码
     private Integer code;
