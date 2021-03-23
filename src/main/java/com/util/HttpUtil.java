@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class HttpUtil {
@@ -45,7 +46,7 @@ public class HttpUtil {
         return null;
     }
 
-    public static JSONObject doPost(String URL, JSONObject postData) {
+    public static JSONObject doPost(String URL, String postData) {
         //1:创建一个HttpClient的实例
         CloseableHttpClient httpclient = HttpClients.createDefault();
         //2:创建一个POST请求实例
@@ -76,5 +77,12 @@ public class HttpUtil {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    public static JSONObject postTim(String apiName, String postData) {
+//        Random random = new Random();
+//        int randNumber = random.nextInt(4294967295 - 0 + 1) + 0;
+        String usrSig = "eJwtzNEKgjAYBeB32XXIv*lsE7oJutEKoSnUnbElP6Ebc1gQvXumXp7vHM6HqOMlGo0nGWERkM2cUZs*4ANnbnSHPQ7BN8H6dTDoZ*McapLRBCCRQtJ4aczboTeTc84ZACwasPtbStNECCrZ*oLt9F8pua9yhaw2h3rkFm8vO56gLdS5iNm2aO21K0u858zuyPcHVuk0xQ__";
+        return doPost("https://console.tim.qq.com/v4/"+apiName+"?sdkappid=1400498913&identifier=administrator&usersig="+usrSig+"&contenttype=json", postData);
     }
 }

@@ -8,4 +8,8 @@ public interface UserSever {
     List<Student> selStudent();
 
     String getTimId(String userName, String userPassword);
+
+    List<String> getUserRelation(String userID);
+
+    int addUserRelation(String user1, String user2);
 }

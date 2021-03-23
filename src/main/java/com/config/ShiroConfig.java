@@ -32,7 +32,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setUnauthorizedUrl("/Error/unauthorized");
         // 设置过滤规则
         Map<String, String> filterRuleMap = new HashMap<String, String>();
-        filterRuleMap.put("/**", "jwt");
+        filterRuleMap.put("/**", "shiro");
         filterRuleMap.put("/Error/**", "anon");
         filterRuleMap.put("/druid/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterRuleMap);
