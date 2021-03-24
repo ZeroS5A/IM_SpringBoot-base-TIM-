@@ -57,7 +57,11 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.4.0</version>
         </dependency>
-
+        <!-- 引入mail -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
         <!--Https请求依赖-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

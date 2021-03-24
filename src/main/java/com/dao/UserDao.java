@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.bean.Student;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -35,6 +36,16 @@ public interface UserDao {
     )
     List<String> gerUserRelation(String userID);
 
+    @Delete(
+            "DELETE FROM\n" +
+                    "	t_relation\n" +
+                    "WHERE\n" +
+                    "	t_relation.relationUser1=#{0}\n" +
+                    "   AND\n"+
+                    "	t_relation.relationUser2=#{1}"
+    )
+    int deleteRelationShip(String userId1, String userId2);
+
     @Select(
         "SELECT\n" +
             " t_user.userTimId\n" +
@@ -47,4 +58,24 @@ public interface UserDao {
 
     @Insert("INSERT INTO t_relation(relationUser1,relationUser2) VAlUES(#{0},#{1})")
     int addUserRelation(String user1, String user2);
+
+    @Select(
+        "SELECT\n" +
+            "t_user.userName\n" +
+            "FROM\n" +
+            "t_user\n" +
+            "WHERE\n" +
+            "t_user.userName=#{0}"
+    )
+    //检查用户名
+    public String checkUserName(String userName);
+
+    @Insert(
+        "INSERT INTO\n" +
+            "	t_user(userName, userTimId, userPassword, email)\n" +
+            "VALUES\n" +
+            "	(#{0},#{0},#{1},#{2})"
+    )
+    //用户注册
+    public Integer userRegister(String userName, String password, String email);
 }
