@@ -13,7 +13,13 @@ public interface UserServer {
 
     Result getMailCode(String mailAddress);
 
-    public Result userRegister(Map<String, String> map);
+    Result updateEmail(String userId, Map<String, String> map);
+
+    Result updatePassWd(String userId, Map<String,String> map);
+
+    Result userRegister(Map<String, String> map);
+
+    Result getUserData (String userID);
 
     List<String> getUserRelation(String userID);
 

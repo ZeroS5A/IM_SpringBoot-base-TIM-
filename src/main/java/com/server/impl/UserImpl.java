@@ -60,6 +60,54 @@ public class UserImpl implements UserServer {
     }
 
     @Override
+    public Result updateEmail(String userId, Map<String, String> map) {
+        Result result = new Result();
+
+        if(userId.isEmpty()){
+            result.setData(400);
+            return result;
+        }
+
+        if(tokenUtil.goodToken(map.get("token"))){
+            if (userDao.checkEmail(map.get("email"))==0){
+                if (map.get("code").equals(tokenUtil.getMailCode(map.get("token")))){
+                    userDao.updateEmail(userId,map.get("email"));
+                    result.setCode(200);
+                    result.setMessage("updateSuccess");
+                    return result;
+                }
+                result.setCode(302);
+                result.setMessage("fail");
+                return result;
+            }
+            result.setCode(301);
+            result.setMessage("had");
+            return result;
+        }
+        result.setCode(303);
+        result.setMessage("bad");
+        return result;
+    }
+
+    @Override
+    public Result updatePassWd(String userId, Map<String,String> map) {
+        Result result = new Result();
+        //验证原密码
+        if(userDao.userLogin(map.get("userId"),map.get("pw")) != null){
+            //更新密码
+            if(userDao.updatePassWd(userId,map.get("npw")) != 0){
+                result.setCode(200);
+                result.setMessage("resetSuccess");
+                return result;
+            }
+            result.setResult(ResultStatus.SERVERERR);
+            return result;
+        }
+        result.setCode(404);
+        return result;
+    }
+
+    @Override
     public Result userRegister(Map<String, String> map) {
         Result result = new Result();
         //验证验证码正确且未过期
@@ -84,6 +132,16 @@ public class UserImpl implements UserServer {
             result.setMessage("验证码错误或者已经过期！");
             return result;
         }
+    }
+
+    @Override
+    public Result getUserData(String userID) {
+        Map<String, String> userData = userDao.getUserData(userID);
+        System.out.println(userData.get("email"));
+        Result result = new Result();
+        result.setData(userData);
+        result.setCode(200);
+        return result;
     }
 
     @Override

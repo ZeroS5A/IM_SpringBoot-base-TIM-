@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.commom.Result;
 import com.server.UserServer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,13 +22,12 @@ public class UserController {
     private TLSSigAPIv2 tlsSigAPIv2;
     @Autowired
     private HttpUtil httpUtil;
-    @Autowired
-    Result result;
 
     @RequestMapping("/userLogin")
     public Result userLogin(@RequestBody Map userData){
         String timId = userServer.getTimId(userData.get("userID").toString(),userData.get("userPW").toString());
         System.out.println(timId);
+        Result result = new Result();
         if (timId==null){
             result.setCode(4105);
             result.setMessage("用户不存在或者密码错误！");
@@ -52,14 +48,40 @@ public class UserController {
         return userServer.getMailCode(map.get("email"));
     }
 
+    @RequestMapping("/updateEmail")
+    // code userId token email
+    public Result updateEmail(@RequestBody Map<String,String> map){
+        String userId = map.get("userId");
+        return userServer.updateEmail(userId,map);
+    }
+
+    @RequestMapping("/updatePassWd")
+    // userID, pw, npw
+    public Result updatePassWd(@RequestBody Map<String,String> map){
+        return userServer.updatePassWd(map.get("userId"),map);
+    }
+
+    @RequestMapping("/getUserData")
+    public Result getUserData(@RequestParam(value="userID",required=true)String userID ){
+        Result result = new Result();
+
+        if(userID.isEmpty()){
+            result.setCode(404);
+            return result;
+        }
+        return userServer.getUserData(userID);
+    }
+
     @RequestMapping("/userRegister")
     public Result userRegister(@RequestBody Map<String, String> map){
         return userServer.userRegister(map);
     }
 
     @RequestMapping("/getUserRelation")
-    public Result getUserRelation(@RequestParam(value="userID",required=false)String userID ){
+    public Result getUserRelation(@RequestParam(value="userID",required=true)String userID ){
 //        result.setData(userSever.getUserRelation(userID));
+        Result result = new Result();
+
         String postData = "{\n" +
                 "  \"To_Account\":"+ JSONArray.toJSONString(userServer.getUserRelation(userID))+",\n"+
                 "  \"TagList\":\n" +
@@ -79,6 +101,8 @@ public class UserController {
 
     @RequestMapping("/addUserRelation")
     public Result addUserRelation(@RequestBody Map user){
+        Result result = new Result();
+
         int res = userServer.addUserRelation(user.get("userID").toString(),user.get("userName").toString());
         if (res == -1){
             result.setCode(404);
@@ -99,6 +123,8 @@ public class UserController {
 
     @RequestMapping("/deleteUserRelation")
     public Result deleteUserRelation(@RequestBody Map user){
+        Result result = new Result();
+
         int res = userServer.deleteUserRelation(user.get("userID1").toString(),user.get("userID2").toString());
 
         if (res == 1){

@@ -1,10 +1,7 @@
 package com.dao;
 
 import com.bean.Student;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +21,7 @@ public interface UserDao {
             "AND \n" +
             "userPassword=#{1}"
     )
-    public String userLogin(String userName, String password);
+    String userLogin(String userName, String password);
 
     @Select(
         "SELECT \n" +
@@ -47,6 +44,39 @@ public interface UserDao {
     int deleteRelationShip(String userId1, String userId2);
 
     @Select(
+            "SELECT\n" +
+                    "count(t_user.userName)\n" +
+                    "FROM\n" +
+                    "t_user\n" +
+                    "WHERE\n" +
+                    "t_user.email=#{0}"
+    )
+    //检查邮箱
+    public int checkEmail(String email);
+
+    @Update(
+            "UPDATE\n" +
+                    "	t_user u\n" +
+                    "	SET\n" +
+                    "	u.email=#{1}\n" +
+                    "	WHERE\n" +
+                    "	u.userName=#{0}"
+    )
+    //更新邮箱
+    public int updateEmail(String userId,String email);
+
+    @Update(
+            "UPDATE\n" +
+                    "	t_user u\n" +
+                    "	SET\n" +
+                    "	u.userPassword=#{1}\n" +
+                    "	WHERE\n" +
+                    "	u.userName=#{0}"
+    )
+    //更新密码
+    public int updatePassWd(String userId,String passWd);
+
+    @Select(
         "SELECT\n" +
             " t_user.userTimId\n" +
             "FROM\n" +
@@ -58,6 +88,12 @@ public interface UserDao {
 
     @Insert("INSERT INTO t_relation(relationUser1,relationUser2) VAlUES(#{0},#{1})")
     int addUserRelation(String user1, String user2);
+
+    @Select("SELECT \n" +
+            "	userTimId, userNickName, email, avatarUrl\n" +
+            "FROM `t_user` \n" +
+            "WHERE userName = #{0}")
+    Map<String,String> getUserData(String userID);
 
     @Select(
         "SELECT\n" +
