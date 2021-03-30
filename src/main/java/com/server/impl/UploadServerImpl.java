@@ -1,11 +1,12 @@
-package com.ZBlog.server.impl;
+package com.server.impl;
 
-import com.ZBlog.bean.TFile;
-import com.ZBlog.commom.Result;
-import com.ZBlog.commom.ResultStatus;
-import com.ZBlog.dao.FileDao;
-import com.ZBlog.server.UploadServer;
+import com.bean.TFile;
+import com.commom.Result;
+import com.dao.FileDao;
+import com.dao.UserDao;
+import com.server.UploadServer;
 import org.apache.commons.io.IOUtils;
+import org.assertj.core.internal.cglib.asm.$Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,18 +15,18 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.UUID;
 
 @Service("UploadServer")
 public class UploadServerImpl implements UploadServer {
     @Autowired
     FileDao fileDao;
+    @Autowired
+    UserDao userDao;
 
     @Override
-    public Result uploadImage(Integer userId, MultipartFile file) {
+    public Result uploadImage(String userId, MultipartFile file, String type) {
         Result result = new Result();
 
         try {
@@ -36,20 +37,36 @@ public class UploadServerImpl implements UploadServer {
             String hashString = new BigInteger(1, digest).toString(16);
             System.out.println(hashString);
 
-            //创建文件名
+            // 创建文件名
             String imgName = hashString + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-            // 文件读取路径,连接次数过多使用StringBuffer连接节省开销
+            // 连接次数过多使用StringBuffer连接节省开销
             StringBuffer imgUrl = new StringBuffer();
-            // 服务器路径
-            imgUrl.append("https://lczeros.cn/blogData/images/").append(imgName);
+            StringBuilder imgPath = new StringBuilder();
 
-            if(fileDao.checkFileName(hashString) == null){
-                //文件存储路径
-                String imgPath = "/root/ZBlog/blogData/images/";
+            imgUrl.append("http://im.lczeros.cn/ZimData/");
+            imgPath.append("/root/Zim/ZimData/");
 
+            // 区分不同的类别 服务器路径
+            switch (type){
+                case "updateAvatar":
+                    imgUrl.append("images/avatar/");
+                    imgPath.append("images/avatar");
+                    break;
+                case "blogImg":
+                    imgUrl.append("images/blogImg/");
+                    imgPath.append("images/blogImg");
+                    break;
+                default:
+                    imgUrl.append("others/");
+                    imgPath.append("/others");
+            }
+            imgUrl.append(imgName);
+
+//            if(fileDao.checkFileName(hashString) == null){
+            if(true){
 
                 // 文件存储文件夹
-                File imgFolder = new File(imgPath);
+                File imgFolder = new File(imgPath.toString());
                 if (!imgFolder.exists()) {
                     imgFolder.mkdirs();
                 }
@@ -57,55 +74,40 @@ public class UploadServerImpl implements UploadServer {
                 // 写入文件
                 IOUtils.write(file.getBytes(), new FileOutputStream(new File(imgFolder,imgName)));
 
-                // 记录写入数据库
-                TFile tFile = new TFile();
-                tFile.setUploadMd5(hashString);
-                tFile.setUserId(userId);
-                tFile.setDate(new Date());
-                tFile.setIsAvatar(0);
-                fileDao.insertFileName(tFile);
+//                // 记录写入数据库
+//                TFile tFile = new TFile();
+//                tFile.setUploadMd5(hashString);
+//                tFile.setUserId(userId);
+//                tFile.setDate(new Date());
+//                tFile.setIsAvatar(0);
+//                fileDao.insertFileName(tFile);
             }else {
                 result.setMessage("文件已存在");
+            }
+
+            // 获取不同图片链接后的不同动作
+            switch (type){
+                case "updateAvatar":
+                    userDao.updateAvatar(userId, imgUrl.toString());
+                    break;
+                case "blogImg":
+                    break;
+                default:
+                    break;
             }
 
             //返回图片地址
             HashMap map = new HashMap();
             map.put("imgUrl", imgUrl);
             map.put("imgName",hashString);
+            result.setCode(200);
             result.setData(map);
             return result;
 
-            // 文件存储路径
-//            String imgPath = "/usr/ZBlog/blogData/images/";
-//            String folderName = new SimpleDateFormat("yyyyMMdd").format(new Date());
-//
-//            // 文件存储文件夹
-//            File imgFolder = new File(imgPath);
-//            if (!imgFolder.exists()) {
-//                imgFolder.mkdirs();
-//            }
-
-            // 创建随机文件名
-            //String imgName = UUID.randomUUID().toString().replace("-", "") + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-//            String imgName = hashString + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-
-            // 文件读取路径,连接次数过多使用StringBuffer连接节省开销
-//            StringBuffer imgUrl = new StringBuffer();
-            //服务器路径
-//            imgUrl.append("https://lczeros.cn").append("/blogData/images/").append(imgName);
-
-//            // 写入文件
-//
-//            IOUtils.write(file.getBytes(), new FileOutputStream(new File(imgName)));
-//
-//            HashMap map = new HashMap();
-//            map.put("imgUrl", imgUrl);
-//            //返回图片地址
-//            result.setData(map);
-//            return result;
         }catch (Exception e) {
             e.printStackTrace();
-            result.setResult(ResultStatus.SERVERERR);
+//            result.setResult(ResultStatus.SERVERERR);
+            result.setCode(500);
             return result;
         }
     }

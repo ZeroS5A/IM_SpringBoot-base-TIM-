@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.bean.Student;
+import com.bean.TUser;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -13,15 +14,15 @@ public interface UserDao {
 
     @Select(
         "Select\n" +
-            "t_user.userTimId\n" +
-            "From \n" +
+            "userName, userTimId, userNickName, email, avatarUrl, role\n" +
+                "From \n" +
             "t_user\n" +
             "Where \n" +
             "userName=#{0}\n" +
             "AND \n" +
             "userPassword=#{1}"
     )
-    String userLogin(String userName, String password);
+    TUser userLogin(String userName, String password);
 
     @Select(
         "SELECT \n" +
@@ -64,6 +65,17 @@ public interface UserDao {
     )
     //更新邮箱
     public int updateEmail(String userId,String email);
+
+    @Update(
+            "UPDATE\n" +
+                    "	t_user u\n" +
+                    "	SET\n" +
+                    "	u.avatarUrl=#{1}\n" +
+                    "	WHERE\n" +
+                    "	u.userName=#{0}"
+    )
+    //更新头像
+    public int updateAvatar(String userId,String avatar);
 
     @Update(
             "UPDATE\n" +

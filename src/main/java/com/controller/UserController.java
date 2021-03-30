@@ -2,6 +2,7 @@ package com.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.bean.TUser;
 import com.commom.Result;
 import com.server.UserServer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +26,19 @@ public class UserController {
 
     @RequestMapping("/userLogin")
     public Result userLogin(@RequestBody Map userData){
-        String timId = userServer.getTimId(userData.get("userID").toString(),userData.get("userPW").toString());
-        System.out.println(timId);
+        TUser tUser = userServer.getTimId(userData.get("userID").toString(),userData.get("userPW").toString());
+        System.out.println(tUser);
         Result result = new Result();
-        if (timId==null){
+        if (tUser == null){
             result.setCode(4105);
             result.setMessage("用户不存在或者密码错误！");
             return result;
         }
         else {
             result.setCode(200);
-            Map<String,String> map =new HashMap<String, String>();
-            map.put("timId",timId);
-            map.put("userSig",tlsSigAPIv2.genUserSig(timId, 86400));
-            result.setData(map);
+            tUser.setUserSig(tlsSigAPIv2.genUserSig(tUser.getUserTimId(), 86400));
+
+            result.setData(tUser);
             return result;
         }
     }

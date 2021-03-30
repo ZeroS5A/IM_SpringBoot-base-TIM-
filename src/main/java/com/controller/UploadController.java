@@ -1,19 +1,18 @@
-package com.ZBlog.controller;
+package com.controller;
 
-import com.ZBlog.commom.Result;
-import com.ZBlog.commom.ResultStatus;
-import com.ZBlog.server.UploadServer;
-import com.ZBlog.util.TokenUtil;
-import org.apache.commons.io.IOUtils;
+import com.commom.Result;
+import com.server.UploadServer;
+import com.util.TokenUtil;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/upload")
@@ -26,8 +25,12 @@ public class UploadController extends ExceptionController{
 
     @RequiresRoles(value={"admin","user"},logical = Logical.OR)
     @RequestMapping("/image")
-    public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile image){
-
-        return uploadServer.uploadImage(Integer.valueOf(tokenUtil.getTokenData(token).get("userId")),image);
+    public Result upLoadAvatar(
+            @RequestParam("userID") String userID,
+            @RequestParam("image") MultipartFile image,
+            @RequestParam("type") String type
+            ){
+        System.out.println(userID);
+        return uploadServer.uploadImage(userID, image, type);
     }
 }

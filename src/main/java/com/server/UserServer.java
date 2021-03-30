@@ -1,6 +1,7 @@
 package com.server;
 
 import com.bean.Student;
+import com.bean.TUser;
 import com.commom.Result;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Map;
 public interface UserServer {
     List<Student> selStudent();
 
-    String getTimId(String userName, String userPassword);
+    TUser getTimId(String userName, String userPassword);
 
     Result getMailCode(String mailAddress);
 

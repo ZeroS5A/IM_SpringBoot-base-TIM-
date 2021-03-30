@@ -22,7 +22,7 @@ public class TokenUtil {
 
     Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
 
-    public String getToken(){
+    public String getToken(Map<String,String> map){
 
         //过期时间和加密算法设置
         Date date=new Date(System.currentTimeMillis()+EXPIRE_TIME);
@@ -35,10 +35,10 @@ public class TokenUtil {
 
         return JWT.create()
                 .withHeader(header)
-                .withClaim("openId","token.getOpenId()")
-                .withClaim("role","token.getRole()")
-                .withClaim("lastLogin","token.getLastLogin()")
-                .withExpiresAt(date)
+                .withClaim("tid",map.get("tid"))
+                .withClaim("role",map.get("role"))
+                .withClaim("expirationTime",System.currentTimeMillis()+EXPIRE_TIME)
+//                .withExpiresAt(date)
                 .sign(algorithm);
 
     }
@@ -47,7 +47,7 @@ public class TokenUtil {
     public Boolean goodToken(String token){
         try{
             DecodedJWT jwt = JWT.decode(token);
-            if(jwt.getClaim("lastLogin").asLong()<System.currentTimeMillis()){
+            if(jwt.getClaim("expirationTime").asLong()<System.currentTimeMillis()){
                 return false;
             }else {
                 return true;
@@ -68,7 +68,7 @@ public class TokenUtil {
         return JWT.create()
                 .withHeader(header)
                 .withClaim("mailCode",mailCode)
-                .withClaim("lastLogin",System.currentTimeMillis()+MAILEXPIRE_TIME)
+                .withClaim("expirationTime",System.currentTimeMillis()+MAILEXPIRE_TIME)
                 .sign(algorithm);
     }
 

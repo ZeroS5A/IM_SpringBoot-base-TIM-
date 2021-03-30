@@ -1,4 +1,4 @@
-package com.ZBlog.bean;
+package com.bean;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;

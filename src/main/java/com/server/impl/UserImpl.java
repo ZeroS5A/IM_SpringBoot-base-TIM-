@@ -1,6 +1,7 @@
 package com.server.impl;
 
 import com.bean.Student;
+import com.bean.TUser;
 import com.commom.Result;
 import com.commom.ResultStatus;
 import com.dao.UserDao;
@@ -29,7 +30,7 @@ public class UserImpl implements UserServer {
     }
 
     @Override
-    public String getTimId(String userName, String userPassword) {
+    public TUser getTimId(String userName, String userPassword) {
         return userDao.userLogin(userName,userPassword);
     }
 
@@ -39,18 +40,18 @@ public class UserImpl implements UserServer {
         Result result = new Result();
         try {
             //生成随机码
-//            Integer mailCode = (int)((Math.random() * 9 + 1) * 100000);
-            Integer mailCode = 123456;
+            Integer mailCode = (int)((Math.random() * 9 + 1) * 100000);
+//            Integer mailCode = 123456;
             //加工成token
             result.setMessage(tokenUtil.getMailToken(mailCode));
             //发送邮件
-//            System.out.println("验证码："+mailCode);
-//            if (userDao.checkEmail(mailAddress)==0){
-//                mailUtil.sendSimpleMail(mailAddress,"ZIM","欢迎注册！你的验证码是："+mailCode+"，请在十分钟内使用");
-//            }else {
-//                result.setCode(302);
-//                result.setMessage("hadUsed");
-//            }
+            System.out.println("验证码："+mailCode);
+            if (userDao.checkEmail(mailAddress)==0){
+                mailUtil.sendSimpleMail(mailAddress,"ZIM","欢迎注册！你的验证码是："+mailCode+"，请在十分钟内使用");
+            }else {
+                result.setCode(302);
+                result.setMessage("hadUsed");
+            }
             result.setCode(200);
             return result;
         }catch (Exception e){

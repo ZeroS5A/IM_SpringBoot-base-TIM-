@@ -1,9 +1,10 @@
-package com.ZBlog.dao;
+package com.dao;
 
-import com.ZBlog.bean.TFile;
-import org.apache.ibatis.annotations.*;
-
-import java.util.List;
+import com.bean.TFile;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface FileDao {

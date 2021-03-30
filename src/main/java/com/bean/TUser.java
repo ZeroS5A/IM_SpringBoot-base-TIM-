@@ -1,5 +1,4 @@
-package com.sample;
-
+package com.bean;
 
 public class TUser {
 
@@ -12,6 +11,7 @@ public class TUser {
   private String email;
   private String role;
 
+  private String userSig;
 
   public long getId() {
     return id;
@@ -84,4 +84,26 @@ public class TUser {
     this.role = role;
   }
 
+  public String getUserSig() {
+    return userSig;
+  }
+
+  public void setUserSig(String userSig) {
+    this.userSig = userSig;
+  }
+
+  @Override
+  public String toString() {
+    return "TUser{" +
+            "id=" + id +
+            ", userName='" + userName + '\'' +
+            ", userPassword='" + userPassword + '\'' +
+            ", userNickName='" + userNickName + '\'' +
+            ", avatarUrl='" + avatarUrl + '\'' +
+            ", userTimId='" + userTimId + '\'' +
+            ", email='" + email + '\'' +
+            ", role='" + role + '\'' +
+            ", userSig='" + userSig + '\'' +
+            '}';
+  }
 }
