@@ -12,6 +12,7 @@ public class TUser {
   private String role;
 
   private String userSig;
+  private String token;
 
   public long getId() {
     return id;
@@ -92,6 +93,14 @@ public class TUser {
     this.userSig = userSig;
   }
 
+  public String getToken() {
+    return token;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
+  }
+
   @Override
   public String toString() {
     return "TUser{" +
@@ -104,6 +113,7 @@ public class TUser {
             ", email='" + email + '\'' +
             ", role='" + role + '\'' +
             ", userSig='" + userSig + '\'' +
+            ", token='" + token + '\'' +
             '}';
   }
 }

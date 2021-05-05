@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bean.TUser;
 import com.commom.Result;
 import com.server.UserServer;
+import com.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class UserController {
     @Autowired
     private TLSSigAPIv2 tlsSigAPIv2;
     @Autowired
-    private HttpUtil httpUtil;
+    private TokenUtil tokenUtil;
 
     @RequestMapping("/userLogin")
     public Result userLogin(@RequestBody Map userData){
@@ -37,6 +38,11 @@ public class UserController {
         else {
             result.setCode(200);
             tUser.setUserSig(tlsSigAPIv2.genUserSig(tUser.getUserTimId(), 86400));
+
+            Map<String, String> tokenData = new HashMap<>();
+            tokenData.put("userName",tUser.getUserName());
+            tokenData.put("role",tUser.getRole());
+            tUser.setToken(tokenUtil.getToken(tokenData));
 
             result.setData(tUser);
             return result;

@@ -1,6 +1,6 @@
 package com.dao;
 
-import com.bean.Student;
+import com.bean.Token;
 import com.bean.TUser;
 import org.apache.ibatis.annotations.*;
 
@@ -10,7 +10,7 @@ import java.util.Map;
 @Mapper
 public interface UserDao {
     @Select("select * from t_student")
-    public List<Student> selAllStudent();
+    public List<Token> selAllStudent();
 
     @Select(
         "Select\n" +

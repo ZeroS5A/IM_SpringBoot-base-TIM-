@@ -32,14 +32,37 @@ public class test {
     @Test
     public void test1(){
         System.out.println(
-                "Select\n" +
-                        "t_user.userTimId\n" +
-                        "From \n" +
-                        "t_user\n" +
-                        "Where \n" +
-                        "userName=#{0}\n" +
-                        "AND \n" +
-                        "password=#{1}"
+                "SELECT\n" +
+                        "	t_blog.blogId,\n" +
+                        "	t_blog.userName,\n" +
+                        "	t_blog.classId,\n" +
+                        "	t_blog.title,\n" +
+                        "	t_blog.postTime,\n" +
+                        "	t_blog.content,\n" +
+                        "	t_blog.imageList,\n" +
+                        "	t_user.avatarUrl,\n" +
+                        "	a.likeNum,\n" +
+                        "	t_user.userTimId\n" +
+                        "FROM\n" +
+                        "	t_blog\n" +
+                        "LEFT JOIN\n" +
+                        "	t_user\n" +
+                        "ON\n" +
+                        "	t_user.userName = t_blog.userName\n" +
+                        "LEFT JOIN\n" +
+                        "	(SELECT\n" +
+                        "		count(*) as likeNum,\n" +
+                        "		blogId\n" +
+                        "		FROM\n" +
+                        "		t_bloglike\n" +
+                        "		GROUP BY\n" +
+                        "		t_bloglike.blogId\n" +
+                        "		) a\n" +
+                        "ON\n" +
+                        "a.blogId=t_blog.blogId\n" +
+                        "ORDER BY\n" +
+                        "t_blog.postTime\n" +
+                        "DESC"
         );
     }
 }

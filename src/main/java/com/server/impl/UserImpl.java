@@ -1,6 +1,6 @@
 package com.server.impl;
 
-import com.bean.Student;
+import com.bean.Token;
 import com.bean.TUser;
 import com.commom.Result;
 import com.commom.ResultStatus;
@@ -25,7 +25,7 @@ public class UserImpl implements UserServer {
 
 
     @Override
-    public List<Student> selStudent() {
+    public List<Token> selStudent() {
         return userDao.selAllStudent();
     }
 

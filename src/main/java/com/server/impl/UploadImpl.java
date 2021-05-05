@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 @Service("UploadServer")
-public class UploadServerImpl implements UploadServer {
+public class UploadImpl implements UploadServer {
     @Autowired
     FileDao fileDao;
     @Autowired
@@ -43,8 +43,13 @@ public class UploadServerImpl implements UploadServer {
             StringBuffer imgUrl = new StringBuffer();
             StringBuilder imgPath = new StringBuilder();
 
-            imgUrl.append("http://im.lczeros.cn/ZimData/");
-            imgPath.append("/root/Zim/ZimData/");
+//            imgUrl.append("http://im.lczeros.cn/ZimData/");
+//            imgPath.append("/root/Zim/ZimData/");
+
+            // 本地环境
+            imgPath.append("/ZimData/");
+            imgUrl.append("http://localhost/ZimData/");
+
 
             // 区分不同的类别 服务器路径
             switch (type){

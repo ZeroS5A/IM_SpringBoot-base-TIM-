@@ -3,6 +3,7 @@ package com.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.bean.Token;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -35,7 +36,7 @@ public class TokenUtil {
 
         return JWT.create()
                 .withHeader(header)
-                .withClaim("tid",map.get("tid"))
+                .withClaim("userName",map.get("userName"))
                 .withClaim("role",map.get("role"))
                 .withClaim("expirationTime",System.currentTimeMillis()+EXPIRE_TIME)
 //                .withExpiresAt(date)
@@ -77,14 +78,14 @@ public class TokenUtil {
         return jwt.getClaim("mailCode").asInt().toString();
     }
 
-//    public Token getTokenData(String token){
-//        DecodedJWT jwt = JWT.decode(token);
-//        Token tk = new Token();
-//
-//        tk.setOpenId(jwt.getClaim("openId").asString());
-//        tk.setRole(jwt.getClaim("role").asString());
-//        tk.setLastLogin(jwt.getClaim("lastLogin").asDate());
-//
-//        return tk;
-//    }
+    public Token getTokenData(String token){
+        DecodedJWT jwt = JWT.decode(token);
+        Token tk = new Token();
+
+        tk.setUserName(jwt.getClaim("userName").asString());
+        tk.setRole(jwt.getClaim("role").asString());
+//        tk.setExpirationTime(jwt.getClaim("lastLogin").asDate());
+
+        return tk;
+    }
 }

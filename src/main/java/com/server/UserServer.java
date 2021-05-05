@@ -1,6 +1,6 @@
 package com.server;
 
-import com.bean.Student;
+import com.bean.Token;
 import com.bean.TUser;
 import com.commom.Result;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserServer {
-    List<Student> selStudent();
+    List<Token> selStudent();
 
     TUser getTimId(String userName, String userPassword);
 
