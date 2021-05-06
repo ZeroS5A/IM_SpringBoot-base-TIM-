@@ -14,7 +14,7 @@ public interface UserDao {
 
     @Select(
         "Select\n" +
-            "userName, userTimId, userNickName, email, avatarUrl, role\n" +
+            "userName, userTimId, userNickName, email, avatarUrl, role, isban\n" +
                 "From \n" +
             "t_user\n" +
             "Where \n" +

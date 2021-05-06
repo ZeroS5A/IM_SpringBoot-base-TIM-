@@ -10,6 +10,7 @@ public class TUser {
   private String userTimId;
   private String email;
   private String role;
+  private Integer isban;
 
   private String userSig;
   private String token;
@@ -85,6 +86,14 @@ public class TUser {
     this.role = role;
   }
 
+  public Integer getIsban() {
+    return isban;
+  }
+
+  public void setIsban(Integer isban) {
+    this.isban = isban;
+  }
+
   public String getUserSig() {
     return userSig;
   }
@@ -112,6 +121,7 @@ public class TUser {
             ", userTimId='" + userTimId + '\'' +
             ", email='" + email + '\'' +
             ", role='" + role + '\'' +
+            ", isban='" + isban + '\'' +
             ", userSig='" + userSig + '\'' +
             ", token='" + token + '\'' +
             '}';

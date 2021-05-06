@@ -46,8 +46,10 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 System.out.println("Token验证失败");
                 return false;
             }
+        }else{
+            System.out.println("没有token，但是现在未开放登录");
+            return false;
         }
-        System.out.println("没有token，但是现在开放登录");
         return true;
     }
 
@@ -64,15 +66,17 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+//        System.out.println("无需验证");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
+        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
         // 跨域时会首先发送一个option请求，这里我们给option请求直接返回正常状态
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
-            System.out.println("跨域操作");
             httpServletResponse.setStatus(HttpStatus.OK.value());
+            System.out.println("跨域访问");
             return false;
         }
         return super.preHandle(request, response);

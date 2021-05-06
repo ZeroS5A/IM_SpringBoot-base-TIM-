@@ -43,12 +43,13 @@ public class UploadImpl implements UploadServer {
             StringBuffer imgUrl = new StringBuffer();
             StringBuilder imgPath = new StringBuilder();
 
-//            imgUrl.append("http://im.lczeros.cn/ZimData/");
-//            imgPath.append("/root/Zim/ZimData/");
+            // 线上环境
+            imgUrl.append("http://im.lczeros.cn/ZimData/");
+            imgPath.append("/root/Zim/ZimData/");
 
             // 本地环境
-            imgPath.append("/ZimData/");
-            imgUrl.append("http://localhost/ZimData/");
+//            imgPath.append("/ZimData/");
+//            imgUrl.append("http://localhost/ZimData/");
 
 
             // 区分不同的类别 服务器路径

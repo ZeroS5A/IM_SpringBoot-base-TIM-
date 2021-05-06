@@ -1,5 +1,9 @@
 package com.commom;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.bean.Token;
+import com.util.TokenUtil;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
@@ -34,20 +38,21 @@ public class ShiroRealm extends AuthorizingRealm {
         System.out.println("Realm-开始Token验证");
         String jwtToken = (String) token.getCredentials();
 
-//        try {
-//            TokenUtil tku=new TokenUtil();
-//            Token tk=tku.getTokenData(jwtToken);
-//            String role=tk.getRole();
-//            if(role!=null){
-//                //logger.info("用户有效");
-//            }else{
-//                //token解密失败时，返回filter
-//                throw new AuthenticationException("token is invalid , please check your token");
-//            }
-//        }catch (JWTDecodeException e){
-//            //token解密失败时，返回filter
-//            throw new AuthenticationException("token is invalid , please check your token");
-//        }
+        try {
+            TokenUtil tku = new TokenUtil();
+            Token tk = tku.getTokenData(jwtToken);
+            String role = tk.getRole();
+            if(role!=null){
+                //logger.info("用户有效");
+                System.out.println("欢迎"+role+"登录");
+            }else{
+                //token解密失败时，返回filter
+                throw new AuthenticationException("token is invalid , please check your token");
+            }
+        }catch (JWTDecodeException e){
+            //token解密失败时，返回filter
+            throw new AuthenticationException("token is invalid , please check your token");
+        }
 
         //坑在这里（否则验证不通过！）
         setCredentialsMatcher(credentialsMatcher());
@@ -63,16 +68,16 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //这里PrincipalCollection对象存放的是SimpleAuthenticationInfo(jwtToken, role, getName())里的验证信息
 
-        //System.out.println("Realm处理授权");
+        System.out.println("Realm-开始处理授权");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-//        TokenUtil tku=new TokenUtil();
 
+        TokenUtil tku=new TokenUtil();
         String token = (String) principals.getPrimaryPrincipal();
 
 //        System.out.println("Realm获取的token解密后：\n"+tku.getTokenData(token));
 
         //添加角色
-        authorizationInfo.addRole("user");
+        authorizationInfo.addRole(tku.getTokenData(token).getRole());
         return authorizationInfo;
     }
 

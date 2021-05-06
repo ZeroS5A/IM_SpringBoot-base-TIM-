@@ -30,4 +30,11 @@ public class JwtToken implements AuthenticationToken {
     public void setToken(String token) {
         this.token = token;
     }
+
+    @Override
+    public String toString() {
+        return "JwtToken{" +
+                "token='" + token + '\'' +
+                '}';
+    }
 }

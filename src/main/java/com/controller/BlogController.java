@@ -3,7 +3,6 @@ package com.controller;
 import com.bean.TBlog;
 import com.bean.TBloglike;
 import com.bean.TComment;
-import com.bean.TUser;
 import com.commom.Result;
 import com.server.BlogServer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/blog")

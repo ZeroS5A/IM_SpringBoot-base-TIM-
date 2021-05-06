@@ -35,6 +35,11 @@ public class UserController {
             result.setMessage("用户不存在或者密码错误！");
             return result;
         }
+        else if(tUser.getIsban() == 1){
+            result.setCode(303);
+            result.setMessage("用户被封禁");
+            return result;
+        }
         else {
             result.setCode(200);
             tUser.setUserSig(tlsSigAPIv2.genUserSig(tUser.getUserTimId(), 86400));
