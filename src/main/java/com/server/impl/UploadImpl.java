@@ -6,7 +6,6 @@ import com.dao.FileDao;
 import com.dao.UserDao;
 import com.server.UploadServer;
 import org.apache.commons.io.IOUtils;
-import org.assertj.core.internal.cglib.asm.$Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,12 +43,12 @@ public class UploadImpl implements UploadServer {
             StringBuilder imgPath = new StringBuilder();
 
             // 线上环境
-            imgUrl.append("http://im.lczeros.cn/ZimData/");
-            imgPath.append("/root/Zim/ZimData/");
+//            imgUrl.append("http://im.lczeros.cn/ZimData/");
+//            imgPath.append("/root/Zim/ZimData/");
 
             // 本地环境
-//            imgPath.append("/ZimData/");
-//            imgUrl.append("http://localhost/ZimData/");
+            imgPath.append("/ZimData/");
+            imgUrl.append("http://localhost/ZimData/");
 
 
             // 区分不同的类别 服务器路径

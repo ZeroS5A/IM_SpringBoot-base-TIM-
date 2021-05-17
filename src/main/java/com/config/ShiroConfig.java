@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Configuration
@@ -32,13 +33,14 @@ public class ShiroConfig {
         // 设置无权限时跳转的url
         shiroFilterFactoryBean.setUnauthorizedUrl("/Error/unauthorized");
         // 设置过滤规则
-        Map<String, String> filterRuleMap = new HashMap<String, String>();
+        LinkedHashMap<String, String> filterRuleMap = new LinkedHashMap<String, String>();
         filterRuleMap.put("/user/userLogin", "shiro");
         filterRuleMap.put("/user/userRegister", "shiro");
         filterRuleMap.put("/blog/getBlogList/**", "shiro");
         filterRuleMap.put("/blog/getBlogListById/**", "shiro");
         filterRuleMap.put("/blog/getCommentList/**", "shiro");
         filterRuleMap.put("/druid/**", "shiro");
+        filterRuleMap.put("/actuator/**", "shiro");
         filterRuleMap.put("/Error/**", "shiro");
         filterRuleMap.put("/**", "jwt");
 

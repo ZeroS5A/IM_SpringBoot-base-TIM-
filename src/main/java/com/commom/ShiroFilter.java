@@ -23,7 +23,7 @@ public class ShiroFilter extends UserFilter {
         // 跨域时会首先发送一个option请求，这里我们给option请求直接返回正常状态
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpServletResponse.setStatus(HttpStatus.OK.value());
-            System.out.println("跨域访问");
+            System.out.println("跨域访问!");
             return false;
         }
         return super.preHandle(request, response);
