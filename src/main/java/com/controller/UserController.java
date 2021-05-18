@@ -103,9 +103,9 @@ public class UserController {
                 "      \"Tag_Profile_IM_Image\"\n" +
                 "  ]\n" +
                 "}";
-        System.out.println(postData);
+//        System.out.println(postData);
         JSONObject res = HttpUtil.postTim("profile/portrait_get",postData);
-        System.out.println(res);
+//        System.out.println(res);
         result.setData(res);
         return result;
     }

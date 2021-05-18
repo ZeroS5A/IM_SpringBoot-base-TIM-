@@ -23,6 +23,7 @@ public class BlogController {
     public Result getBlogList(@RequestParam("userName") String userName){
         Result result= new Result();
         result.setData(blogServer.getBlogList(userName));
+        result.setCode(200);
         return result;
     }
 
@@ -30,6 +31,8 @@ public class BlogController {
     public Result getBlogListById(@RequestParam("userName") String userName){
         Result result= new Result();
         result.setData(blogServer.getBlogListById(userName));
+        result.setCode(200);
+
         return result;
     }
 

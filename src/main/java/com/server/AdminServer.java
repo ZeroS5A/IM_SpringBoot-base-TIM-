@@ -9,4 +9,10 @@ public interface AdminServer {
     List<TUser> getUserList();
 
     List<TBlog> getBlogList();
+
+    Integer banUser(String userName);
+
+    Integer unBanUser(String userName);
+
+    Integer resetPw(String userName);
 }

@@ -23,4 +23,19 @@ public class AdminImpl implements AdminServer {
     public List<TBlog> getBlogList() {
         return adminDao.getBlogList();
     }
+
+    @Override
+    public Integer banUser(String userName) {
+        return adminDao.banUser(userName);
+    }
+
+    @Override
+    public Integer unBanUser(String userName) {
+        return adminDao.unBanUser(userName);
+    }
+
+    @Override
+    public Integer resetPw(String userName) {
+        return adminDao.resetPw(userName);
+    }
 }

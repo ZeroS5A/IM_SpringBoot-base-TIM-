@@ -12,8 +12,6 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
-import java.util.Random;
 
 @Service
 public class HttpUtil {

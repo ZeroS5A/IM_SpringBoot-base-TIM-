@@ -10,7 +10,7 @@ public class TBlog {
   private java.sql.Timestamp postTime;
   private String content;
   private String imageList;
-  private String likeNum;
+  private Integer likeNum;
 
   private String isLiked;
   private String avatarUrl;
@@ -86,11 +86,11 @@ public class TBlog {
     this.isLiked = isLiked;
   }
 
-  public String getLikeNum() {
+  public Integer getLikeNum() {
     return likeNum;
   }
 
-  public void setLikeNum(String likeNum) {
+  public void setLikeNum(Integer likeNum) {
     this.likeNum = likeNum;
   }
 
