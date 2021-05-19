@@ -4,6 +4,7 @@ import com.alibaba.fastjson.*;
 import com.bean.TUser;
 import com.commom.Result;
 import com.server.AdminServer;
+import com.server.BlogServer;
 import com.util.HttpUtil;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,16 @@ import java.util.*;
 public class AdminController extends ExceptionController{
     @Autowired
     AdminServer adminServer;
+    @Autowired
+    BlogServer blogServer;
 
     @RequiresRoles("admin")
-    @PostMapping("/getUserList")
-    public Result getUserList(){
+    @GetMapping("/getUserList")
+    public Result getUserList(@RequestParam(value="userName",required=true) String userName){
         Result result= new Result();
         result.setCode(200);
 
-        List<TUser> userList = adminServer.getUserList();
+        List<TUser> userList = adminServer.getUserList(userName);
         List<String> userIDList = new ArrayList<>();
 
         for (TUser tUser : userList) {
@@ -95,6 +98,41 @@ public class AdminController extends ExceptionController{
         Result result= new Result();
         result.setCode(200);
         result.setData(adminServer.unBanUser(userName));
+        return result;
+    }
+
+    @RequiresRoles("admin")
+    @RequestMapping("/deleteComment")
+    public Result deleteComment(@RequestParam("commentId") Integer commentId ){
+        Result result= new Result();
+        if (blogServer.deleteCommentById(commentId) == 1){
+            result.setCode(200);
+            result.setMessage("success");
+        }
+        else
+            result.setCode(400);
+        return result;
+    }
+
+    @RequiresRoles("admin")
+    @RequestMapping("/deleteBlog")
+    public Result deleteBlog(@RequestParam("blogId") Integer blogId ){
+        Result result= new Result();
+        if (blogServer.deleteBlogById(blogId) == 1){
+            result.setCode(200);
+            result.setMessage("success");
+        }
+        else
+            result.setCode(400);
+        return result;
+    }
+
+    @RequiresRoles("admin")
+    @GetMapping("/getUserNameList")
+    public Result getUserNameList(@RequestParam(value="userName",required=true) String userName){
+        Result result= new Result();
+        result.setCode(200);
+        result.setData(adminServer.selectUserName(userName));
         return result;
     }
 }

@@ -6,7 +6,7 @@ import com.bean.TUser;
 import java.util.List;
 
 public interface AdminServer {
-    List<TUser> getUserList();
+    List<TUser> getUserList(String userName);
 
     List<TBlog> getBlogList();
 
@@ -15,4 +15,6 @@ public interface AdminServer {
     Integer unBanUser(String userName);
 
     Integer resetPw(String userName);
+
+    List<String> selectUserName (String userName);
 }

@@ -15,8 +15,8 @@ public class AdminImpl implements AdminServer {
     AdminDao adminDao;
 
     @Override
-    public List<TUser> getUserList() {
-        return adminDao.getUserList();
+    public List<TUser> getUserList(String userName) {
+        return adminDao.getUserList('%'+userName+'%');
     }
 
     @Override
@@ -37,5 +37,10 @@ public class AdminImpl implements AdminServer {
     @Override
     public Integer resetPw(String userName) {
         return adminDao.resetPw(userName);
+    }
+
+    @Override
+    public List<String> selectUserName(String userName) {
+        return adminDao.selectUserName('%'+userName+'%');
     }
 }

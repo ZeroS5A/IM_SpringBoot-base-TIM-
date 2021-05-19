@@ -5,14 +5,15 @@ import com.bean.TUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Mapper
 public interface AdminDao {
 
-    @Select("SELECT * FROM `t_user`")
-    List<TUser> getUserList();
+    @Select("SELECT * FROM `t_user` WHERE t_user.userName LIKE #{1}")
+    List<TUser> getUserList(String userName);
 
     @Select("SELECT * FROM `t_blog`")
     List<TBlog> getBlogList();
@@ -25,4 +26,12 @@ public interface AdminDao {
 
     @Update("UPDATE t_user SET userPassword = 123456 WHERE userName =  #{1}")
     Integer resetPw(String userName);
+
+    @Select("SELECT\n" +
+            "	t_user.userName\n" +
+            "FROM\n" +
+            "	t_user\n" +
+            "WHERE\n" +
+            "	t_user.userName LIKE #{1}")
+    List<String> selectUserName (String userName);
 }
