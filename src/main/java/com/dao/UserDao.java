@@ -120,9 +120,9 @@ public interface UserDao {
 
     @Insert(
         "INSERT INTO\n" +
-            "	t_user(userName, userTimId, userPassword, email)\n" +
+            "	t_user(userName, userTimId, userPassword, email, role)\n" +
             "VALUES\n" +
-            "	(#{0},#{0},#{1},#{2})"
+            "	(#{0},#{0},#{1},#{2},'user')"
     )
     //用户注册
     public Integer userRegister(String userName, String password, String email);

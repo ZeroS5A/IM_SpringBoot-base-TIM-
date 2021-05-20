@@ -65,6 +65,10 @@ public class UploadImpl implements UploadServer {
                     imgUrl.append("images/charImg/");
                     imgPath.append("images/charImg");
                     break;
+                case "charFile":
+                    imgUrl.append("files/charFile/");
+                    imgPath.append("files/charFile");
+                    break;
                 default:
                     imgUrl.append("others/");
                     imgPath.append("/others");

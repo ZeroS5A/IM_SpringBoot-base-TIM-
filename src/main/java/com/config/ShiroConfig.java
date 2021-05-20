@@ -36,6 +36,7 @@ public class ShiroConfig {
         LinkedHashMap<String, String> filterRuleMap = new LinkedHashMap<String, String>();
         filterRuleMap.put("/user/userLogin", "shiro");
         filterRuleMap.put("/user/userRegister", "shiro");
+        filterRuleMap.put("/user/getMailCode", "shiro");
         filterRuleMap.put("/blog/getBlogList/**", "shiro");
         filterRuleMap.put("/blog/getBlogListById/**", "shiro");
         filterRuleMap.put("/blog/getCommentList/**", "shiro");

@@ -24,7 +24,7 @@ public interface AdminDao {
     @Update("UPDATE t_user SET isban = 0 WHERE userName =  #{1}")
     Integer unBanUser(String userName);
 
-    @Update("UPDATE t_user SET userPassword = 123456 WHERE userName =  #{1}")
+    @Update("UPDATE t_user SET userPassword = 'e10adc3949ba59abbe56e057f20f883e' WHERE userName =  #{1}")
     Integer resetPw(String userName);
 
     @Select("SELECT\n" +

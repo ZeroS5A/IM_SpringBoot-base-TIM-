@@ -6,6 +6,7 @@ import com.commom.Result;
 import com.server.AdminServer;
 import com.server.BlogServer;
 import com.util.HttpUtil;
+import com.util.TokenUtil;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,8 @@ public class AdminController extends ExceptionController{
     AdminServer adminServer;
     @Autowired
     BlogServer blogServer;
+    @Autowired
+    TokenUtil tokenUtil;
 
     @RequiresRoles("admin")
     @GetMapping("/getUserList")
@@ -49,10 +52,20 @@ public class AdminController extends ExceptionController{
 
     @RequiresRoles("admin")
     @PostMapping("/getBlogList")
-    public Result getBlogList(){
+    public Result getBlogList(@RequestParam("userName") String userName){
         Result result= new Result();
         result.setCode(200);
-        result.setData(adminServer.getBlogList());
+        result.setData(blogServer.getBlogList(userName));
+        return result;
+    }
+
+    @RequiresRoles("admin")
+    @RequestMapping("/getBlogListById")
+    public Result getBlogListById(@RequestParam("userName") String userName){
+        Result result= new Result();
+        result.setData(blogServer.getBlogListById(userName));
+        result.setCode(200);
+
         return result;
     }
 
