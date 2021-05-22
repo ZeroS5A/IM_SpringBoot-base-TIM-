@@ -48,11 +48,11 @@ public class UserImpl implements UserServer {
             System.out.println("验证码："+mailCode);
             if (userDao.checkEmail(mailAddress)==0){
                 mailUtil.sendSimpleMail(mailAddress,"ZIM","欢迎注册！你的验证码是："+mailCode+"，请在十分钟内使用");
+                result.setCode(200);
             }else {
                 result.setCode(302);
                 result.setMessage("hadUsed");
             }
-            result.setCode(200);
             return result;
         }catch (Exception e){
             result.setResult(ResultStatus.SERVERERR);
